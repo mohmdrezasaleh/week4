@@ -1,0 +1,17 @@
+<?php
+
+$host = "192.168.179.162";
+$db   = "app_db";
+$user = "app_user";
+$pass = "{{ db_app_password }}";
+
+$conn = new mysqli($host, $user, $pass, $db);
+
+if ($conn->connect_error) {
+    die("Database Connection Failed: " . $conn->connect_error);
+}
+
+echo "Database Connected Successfully";
+
+$conn->close();
+?>

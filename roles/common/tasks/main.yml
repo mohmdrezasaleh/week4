@@ -1,0 +1,26 @@
+---
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Install common packages
+  apt:
+    name:
+      - curl
+      - ufw
+      - git
+    state: present
+
+- name: Allow required ports
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  loop: "{{ common_allowed_ports }}"
+
+- name: Enable UFW with default deny policy
+  ufw:
+    state: enabled
+    policy: deny

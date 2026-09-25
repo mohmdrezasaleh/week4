@@ -1,0 +1,9 @@
+web_host: "192.168.179.161"
+db_host: "192.168.179.162"
+
+mariadb_bind_address: "0.0.0.0"
+
+db_name: "app_db"
+db_user: "app_user"
+
+web_root: "/var/www/html"

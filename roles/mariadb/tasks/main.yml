@@ -1,0 +1,37 @@
+---
+
+- name: Install MariaDB
+  apt:
+    name:
+      - mariadb-server
+      - mariadb-client
+      - python3-pymysql
+    state: present
+    update_cache: yes
+
+- name: Start MariaDB
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+
+- name: Create application database
+  community.mysql.mysql_db:
+    name: app_db
+    state: present
+    login_unix_socket: /run/mysqld/mysqld.sock
+
+- name: Create application database user
+  community.mysql.mysql_user:
+    name: "{{ db_user }}"
+    password: "{{ db_app_password }}"
+    priv: "{{ db_name }}.*:ALL"
+    host: "{{ web_host }}"
+    state: present
+    login_unix_socket: /run/mysqld/mysqld.sock
+
+- name: Configure MariaDB
+  template:
+    src: 50-server.cnf.j2
+    dest: /etc/mysql/mariadb.conf.d/50-server.cnf
+  notify: Restart MariaDB

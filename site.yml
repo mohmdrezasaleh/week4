@@ -1,0 +1,32 @@
+---
+#do configuration for all hosts
+- name: Configure common settings
+  hosts: all
+  become: true
+
+  roles:
+   - common
+   
+#install mariadb for db hosts
+- name: Configure Database
+  hosts: db
+  become: true
+  
+  roles:
+   - mariadb
+
+- name: Configure nginx webserver
+  hosts: lemp
+  become: true
+
+  roles:
+    - nginx
+
+
+#installing php-fpm
+- name: Installing PHP-FPM
+  hosts: lemp
+  become: true
+
+  roles:
+    - php

@@ -1,0 +1,23 @@
+---
+
+- name: Installing PHP-FPM
+  apt:
+    name:
+      - php-fpm
+      - php-mysql
+    state: present
+    update_cache: yes
+
+- name: starting PHP-FPM
+  service:
+   name: php8.4-fpm
+   state: started
+   enabled: yes
+
+- name: Deploy database check page
+  template:
+    src: db_check.php.j2
+    dest: /var/www/html/db_check.php
+    owner: www-data
+    group: www-data
+    mode: '0644'
